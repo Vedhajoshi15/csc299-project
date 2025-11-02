@@ -1,52 +1,76 @@
 import json
 import os
+import sys
 
-def add_task():
-    task_name = input("Enter task name: ")
-    task = {"name": task_name}
+TASK_FILE = "tasks.json"
 
-    if os.path.exists("tasks.json"):
-        with open("tasks.json", "r") as f:
-            tasks = json.load(f)
-    else:
-        tasks = []
+def load_tasks():
+    """Load existing tasks from the JSON file."""
+    if os.path.exists(TASK_FILE):
+        with open(TASK_FILE, "r") as f:
+            return json.load(f)
+    return []
 
-    tasks.append(task)
-
-    with open("tasks.json", "w") as f:
+def save_tasks(tasks):
+    """Save tasks to the JSON file."""
+    with open(TASK_FILE, "w") as f:
         json.dump(tasks, f, indent=4)
 
-    print(f"Task '{task_name}' added!")
+def add_task(task_name):
+    """Add a new task."""
+    tasks = load_tasks()
+    tasks.append({"name": task_name})
+    save_tasks(tasks)
+    print(f"✅ Task added: {task_name}")
 
 def list_tasks():
-    if not os.path.exists("tasks.json"):
+    """List all tasks."""
+    tasks = load_tasks()
+    if not tasks:
         print("No tasks found.")
         return
+    print("\nYour tasks:")
+    for i, task in enumerate(tasks, 1):
+        print(f"{i}. {task['name']}")
 
-    with open("tasks.json", "r") as f:
-        tasks = json.load(f)
-
-    if not tasks:
-        print("No tasks to show.")
+def search_tasks(keyword):
+    """Search tasks by keyword."""
+    tasks = load_tasks()
+    matches = [t for t in tasks if keyword.lower() in t["name"].lower()]
+    if not matches:
+        print(f"No tasks found matching '{keyword}'.")
     else:
-        print("Your tasks:")
-        for i, task in enumerate(tasks, 1):
+        print(f"\nTasks matching '{keyword}':")
+        for i, task in enumerate(matches, 1):
             print(f"{i}. {task['name']}")
 
+def show_help():
+    print("""
+Usage:
+  python main.py add "task name"      → Add a new task
+  python main.py list                 → List all tasks
+  python main.py search "keyword"     → Search tasks
+  python main.py help                 → Show this help message
+""")
 
-# Main program loop
-while True:
-    print("\n1. Add task")
-    print("2. List tasks")
-    print("3. Exit")
-    choice = input("Enter your choice: ")
+def main():
+    if len(sys.argv) < 2:
+        show_help()
+        return
 
-    if choice == "1":
-        add_task()
-    elif choice == "2":
+    command = sys.argv[1].lower()
+
+    if command == "add" and len(sys.argv) > 2:
+        add_task(" ".join(sys.argv[2:]))
+    elif command == "list":
         list_tasks()
-    elif choice == "3":
-        break
+    elif command == "search" and len(sys.argv) > 2:
+        search_tasks(" ".join(sys.argv[2:]))
+    elif command == "help":
+        show_help()
     else:
-        print("Invalid choice, try again.")
+        print("Invalid command.\n")
+        show_help()
 
+if __name__ == "__main__":
+    main()
