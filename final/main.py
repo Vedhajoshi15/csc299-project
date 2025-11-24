@@ -95,27 +95,55 @@ def delete_note():
 # -------------------------------------------------------
 # OFFLINE AI SUMMARIZER (DeepSeek-style mock response)
 # -------------------------------------------------------
-def ai_summarize():
-    tasks = load_json("tasks.json")
-    if not tasks:
-        print("No tasks found.")
-        return
+def ai_agent():
+    tasks_count = 0
+    notes_count = 0
+    keywords = {}
 
-    print("\nPick a task to summarize:\n")
-    for i, task in enumerate(tasks, 1):
-        print(f"{i}. {task['name']}")
+    # ----- Count tasks -----
+    if os.path.exists("tasks.json"):
+        with open("tasks.json", "r") as f:
+            tasks = json.load(f)
+            tasks_count = len(tasks)
 
-    num = input("\nEnter number: ")
+            for t in tasks:
+                for word in t["name"].lower().split():
+                    keywords[word] = keywords.get(word, 0) + 1
 
-    if not num.isdigit() or int(num) < 1 or int(num) > len(tasks):
-        print("Invalid number.")
-        return
+    # ----- Count notes -----
+    if os.path.exists("notes.json"):
+        with open("notes.json", "r") as f:
+            notes = json.load(f)
+            notes_count = len(notes)
 
-    task = tasks[int(num) - 1]["name"]
+            for n in notes:
+                combined = (n["title"] + " " + n["content"]).lower()
+                for word in combined.split():
+                    keywords[word] = keywords.get(word, 0) + 1
 
-    # --- FAKE DEEPSEEK AI SUMMARY ---
-    print("\n(DeepSeek AI Summary - offline mode)")
-    print(f"Summary: This task is about '{task}'. Focus on completing its main objective.\n")
+    # ----- Output full report -----
+    print("\n--------- AI SUMMARY REPORT ---------")
+    print(f"Total Tasks: {tasks_count}")
+    print(f"Total Notes: {notes_count}")
+
+    if keywords:
+        print("\nTop Keywords:")
+        for w in sorted(keywords, key=keywords.get, reverse=True)[:5]:
+            print(f"  {w} ({keywords[w]} times)")
+    else:
+        print("\nNo keywords found yet.")
+
+    print("\nAI Suggestion:")
+    if tasks_count == 0 and notes_count == 0:
+        print("You haven’t added anything yet. Start by adding tasks or notes!")
+    elif tasks_count > notes_count:
+        print("You seem focused on tasks. Maybe summarize your progress in a note!")
+    elif notes_count > tasks_count:
+        print("Lots of notes! Try converting some into actionable tasks.")
+    else:
+        print("Great balance between notes and tasks — keep it up!")
+
+    print("------------------------------------\n")
 
 
 # ---------------------------------------------
@@ -152,7 +180,7 @@ while True:
     elif choice == "6":
         delete_note()
     elif choice == "7":
-        ai_summarize()
+        ai_agent()
     elif choice == "8":
         print("Goodbye!")
         break
