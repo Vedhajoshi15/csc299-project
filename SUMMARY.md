@@ -1,160 +1,215 @@
-SUMMARY: Development of the Tasks5 Project Using Spec-Driven Development
+# 📘 CSC299 Final Development Summary  
+**Author:** Vedha Joshi  
+**Course:** CSC 299 – Vibecoding  
+**Quarter:** Fall 2025  
 
-This document summarizes the full development process of my CSC299 final project, “tasks5,” built using GitHub’s Spec-Kit and supported by AI coding assistance (GitHub Copilot and ChatGPT). The project followed a structured, multi-phase workflow: Constitution → Specification → Plan → Tasks → Implementation. This summary details how each phase was completed, how AI tools were incorporated, what worked well, what challenges I encountered, and what I learned throughout the process.
+---
 
-1. Project Overview
+# 🧭 Overview
 
-The goal of tasks5 was to build a command-line task management system in Python. The system supports adding tasks, listing tasks, searching tasks, and storing all data persistently in JSON format. The project emphasizes clarity, simplicity, and extensibility. Unlike earlier prototypes (tasks1 and tasks4), tasks5 was developed using a rigorous Spec-Driven Development methodology to simulate real-world engineering workflows.
+This summary explains the full development process of my CSC299 project across **Task 1 → Task 5 → Final Project**.  
+Throughout the course, I built multiple prototypes and finally created a complete, combined **Task Manager + PKMS (Notes) + Offline AI Agent** system.
 
-2. Constitution Phase
+I used several tools during development, including:
 
-The first phase involved creating a project constitution using GitHub Copilot inside VS Code. This constitution defined the guiding principles for the project, including:
+- 🧠 **GitHub Copilot**  
+- 🤖 **ChatGPT (AI guidance)**  
+- 🛠️ **Git + GitHub**  
+- 🧪 **UV + Pytest (Tasks3)**  
+- 🗂️ **Spec-Kit (Tasks5)**  
 
-The system must be a CLI-based task manager written in Python
+This document also explains what worked, what didn’t, and how AI supported my workflow.
 
-JSON must be used for persistent storage
+---
 
-Commands must include add/list/search (with optional delete/complete/show)
+# 📝 **1. Task 1 – Basic Task Manager Prototype**
 
-The project must remain simple, readable, and easy to extend
+📌 **What I built:**  
+My first working task manager using Python and JSON.
 
-AI coding assistance must be documented
+### 🔧 Features  
+- ➕ Add tasks  
+- 📄 List tasks  
+- 🔍 Search tasks  
+- ❓ Help menu  
 
-Development must follow the Spec-Kit pipeline strictly
+### 📌 Command Examples
+python main.py add "task name"
+python main.py list
+python main.py search "keyword"
+python main.py help
 
-This phase set the foundation for all future decisions. The constitution was saved to .specify/constitution.md.
+Task 1 taught me how to build a simple CLI app and work with JSON storage.
 
-3. Specification Phase
+---
 
-Next, I generated the full system specification (spec/spec.md). This document outlined:
+# 📝 **2. Task 2 – Notes System (PKMS Prototype)**
 
-The project’s purpose and high-level design
+📌 **What I added:**  
+A personal knowledge management system with editable and deletable notes.
 
-All supported commands and their expected behavior
+### 🔧 Features  
+- ➕ Add notes  
+- 📄 List notes  
+- ✏️ Edit notes  
+- ❌ Delete notes  
+- 🔍 Search notes  
 
-Data model for tasks (id, description, timestamp, completed flag, tags)
+### 📌 Commands
+python main.py add "title" "content"
+python main.py list
+python main.py edit "title" "new content"
+python main.py delete "title"
+python main.py search "keyword"
 
-Example CLI usage
+This was my first version of a PKMS and helped expand the design beyond simple tasks.
 
-Input/output formats
+---
 
-JSON file structure
+# 🧪 **3. Task 3 – UV Package + Pytest**
 
-Error handling requirements
+📌 Folder contained:  
+README.md
+main.py
+notes.json
+pyproject.toml
+src/
+tests/
 
-Testing expectations
+### 🛠️ What I implemented:
+- Created a UV Python package  
+- Added `inc()` function  
+- Wrote pytest test `test_inc.py`  
+- Ran `uv run pytest` (1 test passed)  
+- Integrated note or task logic inside a proper project structure  
 
-This step was crucial because it forced me to think about the behavior before writing any code. Copilot helped draft the initial structure, and I refined it based on the assignment’s requirements.
+This assignment taught me packaging, testing, and using UV.
 
-4. Planning Phase
+---
 
-The third stage was producing the implementation plan (spec/plan.md). This document translated the specification into a clear development roadmap. It included:
+# 🤖 **4. Task 4 – OpenAI Chat Completions Prototype**
 
-Architecture overview (src/tasks5/* structure)
+📌 Folder contained:
+README.md
+main.py
+pyproject.toml
 
-Module responsibilities (models.py, storage.py, cli.py, commands/*)
+### 🧠 What I built:
+- A script that sends multiple paragraph-length tasks to OpenAI’s API  
+- Received short summaries for each  
+- Demonstrated API usage exactly as required  
 
-How the CLI argument parser should work
+Later, I removed online API usage from my final project, but *Task 4 was successfully completed as required*.
 
-How storage should safely read/write JSON
+---
 
-Testing plan for each component
+# 🗂️ **5. Task 5 – Spec-Kit Project (Spec-Driven Development)**
 
-Phase-by-phase implementation sequence
-
-This plan acted as a blueprint for the entire implementation. It also prevented me from jumping into code too early.
-
-5. Tasks Breakdown Phase
-
-In this phase, I generated a list of small, actionable development tasks (spec/tasks.md). This included:
-
-Creating the project folder structure
-
-Implementing the Task dataclass
-
-Adding JSON storage with load/save/add logic
-
-Building the CLI router and subcommands
-
-Writing unit tests for storage and commands
-
-Designing integration tests
-
-Creating documentation updates
-
-Breaking everything down into small tasks helped keep the project organized and manageable.
-
-6. Implementation Phase
-
-Following the plan and task list, I instructed Copilot to scaffold the entire project. Copilot generated:
-
-Source code:
-src/tasks5/__init__.py
-src/tasks5/cli.py
-src/tasks5/models.py
-src/tasks5/storage.py
-src/tasks5/commands/add.py
-src/tasks5/commands/list.py
-src/tasks5/commands/search.py
-
-Tests:
-tests/test_storage.py
-tests/test_commands.py
-
-Data file:
+📌 Folder contained:
+spec/
+src/
+tests/
 tasks.json
 
+Using GitHub’s **Spec-Kit**, I built a fully structured version of my task manager by generating:
 
-The generated code matched the specification:
+### 📄 Documents
+- ✍️ Constitution (`.specify/constitution.md`)
+- 📘 Specification (`spec/spec.md`)
+- 🗺️ Implementation plan (`spec/plan.md`)
+- 🧩 Task breakdown (`spec/tasks.md`)
 
-models.py implemented the Task structure
+### 🧱 Code Structure (generated + refined)
+- `src/tasks5/models.py`  
+- `src/tasks5/storage.py`  
+- `src/tasks5/cli.py`  
+- `src/tasks5/commands/add.py`  
+- `src/tasks5/commands/list.py`  
+- `src/tasks5/commands/search.py`  
 
-storage.py handled JSON persistence
+### 🧪 Tests
+- `tests/test_storage.py`
+- `tests/test_commands.py`
 
-Subcommand modules handled add, list, and search logic
+Task 5 taught me real software engineering workflow: planning → spec → execution.
 
-The CLI used argparse to route commands
+---
 
-After scaffolding, I reviewed and refined the code manually to ensure it aligned with the constitution and specification.
+# 🎯 **6. Final Project – Combined Task Manager + PKMS + Offline AI Agent**
 
-7. AI Assistance Reflection
+📌 Folder:
+final/
+main.py
+tasks.json
+notes.json
+README.md
+video.txt
 
-Both GitHub Copilot and ChatGPT were essential throughout the project.
+### ✨ Final Features Implemented
 
-What worked well:
+#### 📝 **Tasks**
+- ➕ Add tasks  
+- 📄 List tasks  
+- ❌ Delete tasks  
 
-Copilot handled scaffolding quickly and accurately
+#### 📚 **Notes (PKMS)**
+- ➕ Add notes  
+- 📄 List notes  
+- ❌ Delete notes  
 
-ChatGPT was extremely helpful guiding the workflow and generating specification-level documents
+#### 🤖 **Offline AI Agent**
+Because online API requires payment, I included an **offline AI summary** option:
+- Counts task/notes  
+- Extracts common keywords  
+- Generates a summary sentence without API credits  
 
-AI helped maintain consistency across modules
+#### 🖥️ **UI Improvements**
+- Number-based menu  
+- Cleaner, single-line commands  
+- More professional output  
 
-AI-generated tests helped catch early storage issues
+This final version satisfies all requirements:  
+- CLI interface  
+- Tasks + Notes  
+- AI agent  
+- JSON persistent storage  
 
-What did NOT work or caused difficulties:
+---
 
-Spec-Kit commands do not run in terminal; they must be executed in Copilot Chat
+# 🤖 **7. How I Used AI Assistance**
 
-Some prompt files were empty, requiring manual direction
+### ✅ What worked well:
+- Copilot scaffolded file structures and boilerplate quickly  
+- ChatGPT helped generate my constitution, specs, and plan documents  
+- AI suggestions improved readability and structure  
+- AI guided me when debugging issues  
 
-Copilot sometimes guessed folder names incorrectly, requiring adjustments
+### ⚠️ What didn’t work:
+- OpenAI API required paid credits  
+- Spec-Kit newest version had bugs (as professor said)  
+- Copilot sometimes generated wrong directory paths  
+- Some prompts required manual adjustments  
 
-Occasionally, the assistant needed clarification to match the CSC299 grading rubric
+### 🎓 Lessons Learned:
+- Specifications make coding easier  
+- AI is powerful but needs clear human direction  
+- Version control and small commits matter  
+- Testing early prevents bigger issues later  
 
-Lessons learned:
+---
 
-Spec-Driven Development is much easier when the “thinking work” is done before any coding begins
+# 🏁 **8. Conclusion**
 
-AI tools are powerful but must be guided precisely
+Across Task 1 → Task 5 and the final submission, I learned:
 
-Clear specifications prevent confusion and re-work
+- How to create prototypes  
+- How to use AI assistants responsibly  
+- How to plan using specifications  
+- How to test and refine software  
+- How to build a complete terminal application  
 
-Commit history matters — small, meaningful commits help track progress
+My final project meets all CSC299 requirements and reflects the full spec-driven development process.
 
-8. Final Repository Preparation
+---
 
-After implementation, I copied everything (except the .git folder) into csc299-project/tasks5/ as required. I committed the changes with descriptive messages and documented AI usage. The commit history clearly shows the Spec-Kit workflow.
-
-9. Conclusion
-
-This project taught me how to work systematically using specifications, plans, and structured development steps. It also showed me how AI tools can support — but not replace — real engineering judgment. The result is a clean, extensible, professional-grade CLI task manager that meets all CSC299 requirements and reflects a full spec-driven development lifecycle.
+# 🎉 **End of Summary**
